@@ -1,6 +1,6 @@
 package com.Attractor;
 
-public interface Connectable {
+public interface DataBase {
     void openConnection();
     void closeConnection();
     void checkToConnection();
