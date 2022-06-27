@@ -5,7 +5,7 @@ public interface DataBase {
     void closeConnection();
     void checkToConnection();
     void checkToRecordThisKey();
-    void readOneRecordByKey();
+    boolean has();
     void readSetRecordsFromDataBase();
     void numberOfRecordsInDataBase();
     void addRecordDataBase();
