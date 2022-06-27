@@ -55,7 +55,7 @@ public class ReadFile implements DataBase{
     @Override
     public void openConnection() {
             setConnect(true);
-            System.out.println("Соединение с базой данныхустановлено!");
+            System.out.println("Соединение с базой данных установлено!");
     }
 
     @Override
@@ -136,22 +136,15 @@ public class ReadFile implements DataBase{
     @Override
     public void addRecordDataBase() {
         if (isConnect() == true) {
+
             ReadFile[] readFiles = FileService.readFile();
-            Scanner scanner = new Scanner(System.in);
+            Scanner scanner1 = new Scanner(System.in);
 
-            String index = scanner.nextLine();
-            String index1 = scanner.nextLine();
+            String index = scanner1.nextLine();
+            String index1 = scanner1.nextLine();
+            String [] arr1 = new String[Integer.parseInt(index)];
+            String [] arr2 = new String[Integer.parseInt(index1)];
 
-            File f = new File("./dataBase.json");
-            ObjectMapper mapper = new ObjectMapper();
-
-            try {
-                mapper.writeValue(new File("./dataBase.json"), index);
-                String jsonString = mapper.writeValueAsString(index);
-                System.out.println(jsonString);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
         } else System.out.println("Соединения нет! Сперва подключитесь к Базе данных");
     }
 
@@ -165,9 +158,4 @@ public class ReadFile implements DataBase{
 
     }
 
-    public int scan() {
-        Scanner scanner = new Scanner(System.in);
-        int scanNumber = scanner.nextInt();
-        return scanNumber;
-    }
 }

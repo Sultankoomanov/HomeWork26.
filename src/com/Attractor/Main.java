@@ -1,6 +1,5 @@
 package com.Attractor;
 
-import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
@@ -11,6 +10,7 @@ public class Main {
 
     private static void run() {
         ReadFile readFile = new ReadFile();
+        System.out.println("Программа запущенна! Идет считывание файла...");
 
         Scanner scanner = new Scanner(System.in);
         while (true) {
@@ -42,22 +42,20 @@ public class Main {
                 readFile.addRecordDataBase();
                 break;
             case 9:
+                System.out.println("Действие в разработке");
                 break;
             case 10:
+                System.out.println("Действие в разработке!");
                 break;
             default:
                 System.out.println("Нет такого действия!");
+            }
         }
-        }
-
     }
 
-
     private static void printDo() {
-        System.out.println("Программа запущенна! Идет считывание файла...");
         System.out.println("----------------------------------------------");
         System.out.println("Выберите действие:");
-
         System.out.println("1 - Открыть соединение с базой данных");
         System.out.println("2 - Закрыть соединение с базой данных");
         System.out.println("3 - Проверить есть ли соединение с базой");
