@@ -13,24 +13,33 @@ public class Main {
         ReadFile readFile = new ReadFile();
 
         Scanner scanner = new Scanner(System.in);
+        while (true) {
         printDo();
         int scan = scanner.nextInt();
         switch (scan) {
-            case 1: readFile.openConnection();
+            case 1:
+                readFile.openConnection();
                 break;
-            case 2: readFile.closeConnection();
+            case 2:
+                readFile.closeConnection();
                 break;
-            case 3: readFile.checkToConnection();
+            case 3:
+                readFile.checkToConnection();
                 break;
-            case 4: readFile.checkToRecordThisKey();
+            case 4:
+                readFile.checkToRecordThisKey();
                 break;
-            case 5: System.out.println(readFile.has());
+            case 5:
+                System.out.println(readFile.has());
                 break;
-            case 6: readFile.readSetRecordsFromDataBase();
+            case 6:
+                readFile.readSetRecordsFromDataBase();
                 break;
-            case 7: readFile.numberOfRecordsInDataBase();
+            case 7:
+                readFile.numberOfRecordsInDataBase();
                 break;
-            case 8: readFile.addRecordDataBase();
+            case 8:
+                readFile.addRecordDataBase();
                 break;
             case 9:
                 break;
@@ -38,7 +47,7 @@ public class Main {
                 break;
             default:
                 System.out.println("Нет такого действия!");
-
+        }
         }
 
     }

@@ -1,7 +1,9 @@
 package com.Attractor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Locale;
@@ -139,7 +141,17 @@ public class ReadFile implements DataBase{
 
             String index = scanner.nextLine();
             String index1 = scanner.nextLine();
-            FileService.writeFile(readFiles);
+
+            File f = new File("./dataBase.json");
+            ObjectMapper mapper = new ObjectMapper();
+
+            try {
+                mapper.writeValue(new File("./dataBase.json"), index);
+                String jsonString = mapper.writeValueAsString(index);
+                System.out.println(jsonString);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         } else System.out.println("Соединения нет! Сперва подключитесь к Базе данных");
     }
 
