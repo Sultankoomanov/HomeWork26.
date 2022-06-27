@@ -1,16 +1,9 @@
 package com.Attractor;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Scanner;
@@ -18,6 +11,15 @@ import java.util.Scanner;
 public class ReadFile implements DataBase{
     public String key;
     public String value;
+    public boolean connect;
+
+    public boolean isConnect() {
+        return connect;
+    }
+
+    public void setConnect(boolean connect) {
+        this.connect = connect;
+    }
 
     public ReadFile() {
         this.key = key;
@@ -40,112 +42,105 @@ public class ReadFile implements DataBase{
         this.value = value;
     }
 
-
-
-//    @Override
-//    public String toString() {
-//        return "ReadFile {" +
-//                ", key='" + key + '\'' +
-//                ", value =" + value +
-//                '}';
-//    }
+    @Override
+    public String toString() {
+        return "ReadFile {" +
+                ", key='" + key + '\'' +
+                ", value =" + value +
+                '}';
+    }
 
     @Override
     public void openConnection() {
-        ReadFile[] readFiles = FileService.getGoods();
-        for (ReadFile p : readFiles) {
-            p.setKey(p.getKey().toLowerCase(Locale.ROOT));
-        }
-        System.out.println("Соединение установлено");
+            setConnect(true);
+            System.out.println("Соединение с базой данныхустановлено!");
     }
 
     @Override
     public void closeConnection() {
-
+            setConnect(false);
+            System.out.println("Соединение с базой данных закрыто!");
     }
 
     @Override
     public void checkToConnection() {
-
+        System.out.println("Соеднинение: " + isConnect());
     }
 
     @Override
     public void checkToRecordThisKey() {
-        ReadFile[] readFiles = FileService.getGoods();
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Введите номер индекса");
-        int index = scanner.nextInt();
-        System.out.println("Key " + readFiles[index].getKey() + " Value " +readFiles[index].getValue());
+        if (isConnect() == true) {
+            ReadFile[] readFiles = FileService.readFile();
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Введите номер индекса");
+            int index = scanner.nextInt();
+            System.out.println("Key " + readFiles[index].getKey() + " Value " + readFiles[index].getValue());
+        } else System.out.println("Соединения нет! Сперва подключитесь к Базе данных");
     }
 
     @Override
     public boolean has() {
         boolean index1 = false;
-        ReadFile[] readFiles = FileService.getGoods();
-        Scanner scanner = new Scanner(System.in);
-        String index = scanner.nextLine();
+        if (isConnect() == true) {
+            ReadFile[] readFiles = FileService.readFile();
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Введите КЛЮЧЬ, чтобы проверить если ли в базе");
+            String index = scanner.nextLine();
 
-        for (ReadFile p : readFiles) {
-            p.setKey(p.getKey().toLowerCase(Locale.ROOT));
-            if (Objects.equals(p.getKey(), index)) {
-                index1 = true;
+            for (ReadFile p : readFiles) {
+                if (Objects.equals(p.getKey(), index)) {
+                    index1 = true;
+                }
             }
-        }
+            return index1;
+        } else System.out.println("Соединения нет! Сперва подключитесь к Базе данных");
         return index1;
     }
 
 
     @Override
     public void readSetRecordsFromDataBase() {
-        boolean key = false;
         int data = 0;
-        ReadFile[] readFiles = FileService.getGoods();
-        Scanner scanner = new Scanner(System.in);
-        String index = scanner.nextLine();
+        if (isConnect() == true) {
+            ReadFile[] readFiles = FileService.readFile();
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Введите ключь, чтобы получить запись");
+            String index = scanner.nextLine();
 
-        for (ReadFile p : readFiles) {
-            p.setKey(p.getKey().toLowerCase(Locale.ROOT));
-            if (Objects.equals(p.getKey(), index)) {
-                key = true;
-                data = p.getKey().indexOf(index);
+            for (ReadFile p : readFiles) {
+                if (Objects.equals(p.getKey(), index)) {
+                    data = p.getKey().indexOf(index);
+                }
             }
-        }
-
-        System.out.println("Key " + readFiles[data].getKey() + " Value " +readFiles[data].getValue());
-
-
+            System.out.println("Key " + readFiles[data].getKey() + " Value " + readFiles[data].getValue());
+        } else System.out.println("Соединения нет! Сперва подключитесь к Базе данных");
     }
 
     @Override
     public void numberOfRecordsInDataBase() {
+        if (isConnect() == true) {
+        ReadFile[] readFiles = FileService.readFile();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Введите начальный и конечный индекс");
+        int indexStart = scanner.nextInt();
+        int indexEnd = scanner.nextInt();
 
+        for (int i = indexStart; i <= indexEnd; i++) {
+                System.out.println("Key = " + readFiles[i].getKey() + "   \t| Value = " +readFiles[i].getValue());
+        }
+        } else System.out.println("Соединения нет! Сперва подключитесь к Базе данных");
     }
 
     @Override
     public void addRecordDataBase() {
+        if (isConnect() == true) {
+            ReadFile[] readFiles = FileService.readFile();
+            Scanner scanner = new Scanner(System.in);
 
-        Scanner scanner = new Scanner(System.in);
-        String index = scanner.nextLine();
-        String index1 = scanner.nextLine();
-        JSONObject sampleObject = new JSONObject();
-        try {
-            sampleObject.put("key", index);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        try {
-            sampleObject.put("value", index1);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        try{
-            FileWriter file = new FileWriter("dataBase.json");
-            file.write(sampleObject.toString());
-            file.close();
-        } catch (IOException ex){
-            ex.printStackTrace();
-        }
+            String index = scanner.nextLine();
+            String index1 = scanner.nextLine();
+            FileService.writeFile(readFiles);
+        } else System.out.println("Соединения нет! Сперва подключитесь к Базе данных");
     }
 
     @Override
@@ -156,5 +151,11 @@ public class ReadFile implements DataBase{
     @Override
     public void updateEntryKey() {
 
+    }
+
+    public int scan() {
+        Scanner scanner = new Scanner(System.in);
+        int scanNumber = scanner.nextInt();
+        return scanNumber;
     }
 }

@@ -1,6 +1,7 @@
 package com.Attractor;
 
 import java.util.Locale;
+import java.util.Scanner;
 
 public class Main {
 
@@ -10,11 +11,36 @@ public class Main {
 
     private static void run() {
         ReadFile readFile = new ReadFile();
-        readFile.openConnection();
-        readFile.checkToRecordThisKey();
-        System.out.println(readFile.has());
-        readFile.readSetRecordsFromDataBase();
-//        readFile.addRecordDataBase();
+
+        Scanner scanner = new Scanner(System.in);
+        printDo();
+        int scan = scanner.nextInt();
+        switch (scan) {
+            case 1: readFile.openConnection();
+                break;
+            case 2: readFile.closeConnection();
+                break;
+            case 3: readFile.checkToConnection();
+                break;
+            case 4: readFile.checkToRecordThisKey();
+                break;
+            case 5: System.out.println(readFile.has());
+                break;
+            case 6: readFile.readSetRecordsFromDataBase();
+                break;
+            case 7: readFile.numberOfRecordsInDataBase();
+                break;
+            case 8: readFile.addRecordDataBase();
+                break;
+            case 9:
+                break;
+            case 10:
+                break;
+            default:
+                System.out.println("Нет такого действия!");
+
+        }
+
     }
 
 
