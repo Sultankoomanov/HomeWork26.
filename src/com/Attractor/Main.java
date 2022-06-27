@@ -13,7 +13,8 @@ public class Main {
         readFile.openConnection();
         readFile.checkToRecordThisKey();
         System.out.println(readFile.has());
-        readFile.addRecordDataBase();
+        readFile.readSetRecordsFromDataBase();
+//        readFile.addRecordDataBase();
     }
 
 

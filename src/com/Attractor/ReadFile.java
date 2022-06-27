@@ -2,7 +2,10 @@ package com.Attractor;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -52,7 +55,6 @@ public class ReadFile implements DataBase{
         ReadFile[] readFiles = FileService.getGoods();
         for (ReadFile p : readFiles) {
             p.setKey(p.getKey().toLowerCase(Locale.ROOT));
-//            System.out.printf("%s       \t|  %S\n", p.getKey(), p.getValue());
         }
         System.out.println("Соединение установлено");
     }
@@ -96,7 +98,7 @@ public class ReadFile implements DataBase{
     @Override
     public void readSetRecordsFromDataBase() {
         boolean key = false;
-
+        int data = 0;
         ReadFile[] readFiles = FileService.getGoods();
         Scanner scanner = new Scanner(System.in);
         String index = scanner.nextLine();
@@ -105,12 +107,11 @@ public class ReadFile implements DataBase{
             p.setKey(p.getKey().toLowerCase(Locale.ROOT));
             if (Objects.equals(p.getKey(), index)) {
                 key = true;
+                data = p.getKey().indexOf(index);
             }
         }
 
-        if (key == true) {
-//            System.out.println("Key " + readFiles[].getKey() + " Value " +readFiles[].getValue());
-        }
+        System.out.println("Key " + readFiles[data].getKey() + " Value " +readFiles[data].getValue());
 
 
     }
@@ -123,6 +124,28 @@ public class ReadFile implements DataBase{
     @Override
     public void addRecordDataBase() {
 
+        Scanner scanner = new Scanner(System.in);
+        String index = scanner.nextLine();
+        String index1 = scanner.nextLine();
+        JSONObject sampleObject = new JSONObject();
+        try {
+            sampleObject.put("key", index);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            sampleObject.put("value", index1);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try{
+            FileWriter file = new FileWriter("dataBase.json");
+            file.write(sampleObject.toString());
+            file.close();
+        } catch (IOException ex){
+            ex.printStackTrace();
+        }
     }
 
     @Override
