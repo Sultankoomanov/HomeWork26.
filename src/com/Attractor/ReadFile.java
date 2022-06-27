@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Scanner;
@@ -13,7 +14,7 @@ import java.util.Scanner;
 public class ReadFile implements DataBase{
     public String key;
     public String value;
-    public boolean connect;
+    private boolean connect;
 
     public boolean isConnect() {
         return connect;
@@ -142,9 +143,22 @@ public class ReadFile implements DataBase{
 
             String index = scanner1.nextLine();
             String index1 = scanner1.nextLine();
-            String [] arr1 = new String[Integer.parseInt(index)];
-            String [] arr2 = new String[Integer.parseInt(index1)];
 
+            ReadFile readFile1 = new ReadFile();
+
+            readFile1.setKey(index);
+            readFile1.setValue(index1);
+
+            ObjectMapper mapper = new ObjectMapper();
+            StringWriter writer = new StringWriter();
+
+            try {
+                mapper.writeValue(writer, readFile1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println(writer);
+            
         } else System.out.println("Соединения нет! Сперва подключитесь к Базе данных");
     }
 
